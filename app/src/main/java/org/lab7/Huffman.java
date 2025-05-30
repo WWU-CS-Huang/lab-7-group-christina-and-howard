@@ -4,6 +4,7 @@ import java.lang.UnsupportedOperationException;
 import avl.AVL;
 import heap.HashTable;
 import java.util.HashMap;
+import java.util.PriorityQueue;
 
 public class Huffman {
 
@@ -23,6 +24,10 @@ public class Huffman {
   /** buildTree - builds a Huffman tree for the given frequency Hashmap. */
   public static AVL buildTree(HashMap<String, Integer> freq) {
     // TODO: Howard implement this.
+    PriorityQueue<HuffmanNode> queue = new PriorityQueue<HuffmanNode>();
+    for (String key : freq.keySet()) {
+      queue.add(new HuffmanNode(key, freq.get(key)));
+    }
     throw new UnsupportedOperationException();
   }
 
