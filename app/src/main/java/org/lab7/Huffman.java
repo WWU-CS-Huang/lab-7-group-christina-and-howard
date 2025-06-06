@@ -2,6 +2,7 @@ package lab7;
 
 import java.lang.UnsupportedOperationException;
 import java.io.File;
+import java.io.FileNotFoundException; 
 import avl.AVL;
 import heap.HashTable;
 import java.util.HashMap;
@@ -18,6 +19,13 @@ public class Huffman {
     HashMap<Character, Integer> dummyHash;
     dummyHash = countFrequencies(args[0]);
 
+<<<<<<< Updated upstream
+=======
+    System.out.println("DummyHash: " + dummyHash);
+
+    HuffmanNode root = buildTree(dummyHash);
+    HuffmanNode.printSubtree(root, 0);
+>>>>>>> Stashed changes
   }
 
   /** countFrequencies - Counts the frequencies of each charecter in the string.
@@ -25,35 +33,46 @@ public class Huffman {
     */
   private static HashMap<Character, Integer> countFrequencies(String fileName) {
     // Christina Part 1
-
+    
     // Use to create and access the text file
-    File fileToTally = new File(fileName);
-    String fileAsString = fileToTally.toString();
+    String directory = "src/main/resources/";
+    File fileLocation = new File(directory + fileName);
 
     // Create Hashmap to hash individual chars into
     HashMap<Character, Integer> hash = new HashMap<Character, Integer>();
     char inputChar;
+
+    try {
+
+      Scanner fileToTally = new Scanner(fileLocation);
     
-    // Go through entire file
-    for (int i = 0; i < fileToTally.length(); i++) {
-
-      // Get next input, and hash it to where it needs to go
-      inputChar = fileAsString.charAt(i);
-
-      // If existing in the hashmap, increment value
-      if (hash.containsKey(inputChar)) {
-        hash.put(inputChar, hash.get(inputChar) + 1);
-      } 
+      // Go through entire file
+      while (fileToTally.hasNext()) {
       
-      // Otherwise create a new entry
-      else if (hash.get(inputChar) == null) {
-        hash.put(inputChar, 1);
-      } 
+        // Get next input, and hash it to where it needs to go
+        // Get next "string", each string needs to be broken into individual chars
+        // Each string is missing a space (fencepost a space in there)
+        inputChar = fileToTally.next().charAt(0);
+
+        // If existing in the hashmap, increment value
+        if (hash.containsKey(inputChar)) {
+          hash.put(inputChar, hash.get(inputChar) + 1);
+        } 
       
-      // ???
-      else {
-        throw new UnsupportedOperationException(); 
+        // Otherwise create a new entry
+        else if (hash.get(inputChar) == null) {
+          hash.put(inputChar, 1);
+        } 
+      
+        // ???
+        else {
+          throw new UnsupportedOperationException(); 
+        }
       }
+    }
+
+    catch (FileNotFoundException e) {
+      System.out.println("File Not Found!");
     }
 
     return hash;
