@@ -22,23 +22,32 @@ public class Huffman {
   }
 
   /** buildTree - builds a Huffman tree for the given frequency Hashmap. */
-  public static AVL buildTree(HashMap<String, Integer> freq) {
-    // TODO: Howard implement this.
+  public static HuffmanNode buildTree(HashMap<String, Integer> freq) {
     PriorityQueue<HuffmanNode> queue = new PriorityQueue<HuffmanNode>();
     for (String key : freq.keySet()) {
       queue.add(new HuffmanNode(key, freq.get(key)));
     }
-    throw new UnsupportedOperationException();
+
+    while (queue.size() > 1) {
+      HuffmanNode one = queue.poll();
+      HuffmanNode two = queue.poll();
+      HuffmanNode n = new HuffmanNode(null, one.frequency + two.frequency);
+      n.left = one;
+      n.right = two;
+      queue.add(n);
+    }
+
+    return queue.poll();
   }
 
   /** decode - uses given tree to decode the given bitstring. */
-  public static String decode(AVL tree, String bitString) {
+  public static String decode(HuffmanNode tree, String bitString) {
     // TODO: Christina implement this.
     throw new UnsupportedOperationException();
   }
 
   /** encode - uses the given tree to encode the given input string. */
-  public static String encode(AVL tree, String input) {
+  public static String encode(HuffmanNode tree, String input) {
     // TODO: Howard implement this.
     throw new UnsupportedOperationException();
   }
