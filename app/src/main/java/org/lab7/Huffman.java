@@ -22,8 +22,6 @@ public class Huffman {
     HashMap<Character, Integer> dummyHash = countFrequencies(input);
 
     HuffmanNode root = buildTree(dummyHash);
-    //HuffmanNode.printSubtree(root, 0);
-    //System.out.println("==================");
     String bitString = encode(root, input);
     String decoded = decode(root, bitString);
     
