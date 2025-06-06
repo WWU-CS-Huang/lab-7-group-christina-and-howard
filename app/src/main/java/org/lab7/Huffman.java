@@ -1,6 +1,7 @@
 package lab7;
 
 import java.lang.UnsupportedOperationException;
+import java.io.File;
 import avl.AVL;
 import heap.HashTable;
 import java.util.HashMap;
@@ -11,66 +12,53 @@ public class Huffman {
   public static void main(String[] args) {
     // TODO: update the match Lab spec (will do last).
     System.out.println("Huffman");
+
+    // Grab args[0], the filename, and send it to countFrequencies to intiate the file object
+    // Send HashMap elsewhere later
+    HashMap<Character, Integer> dummyHash;
+    dummyHash = countFrequencies(args[0]);
+
   }
 
   /** countFrequencies - Counts the frequencies of each charecter in the string.
     * stores the results in a HashTable with Strings as keys and  Integers as values.
     */
-  public static HashMap<String, Integer> countFrequencies(String input) {
-    // TODO: Christina implement this.
+  private static HashMap<Character, Integer> countFrequencies(String fileName) {
+    // Christina Part 1
 
-    // TODO: make sure to change the method types, public is bad
-    // TODO: small issue with declaration with input
-        Scanner input = new Scanner(System.in);
+    // Use to create and access the text file
+    File fileToTally = new File(fileName);
+    String fileAsString = fileToTally.toString();
 
-        char inputChar; 
-        //char inputChar = input.nextChar();
+    // Create Hashmap to hash individual chars into
+    HashMap<Character, Integer> hash = new HashMap<Character, Integer>();
+    char inputChar;
+    
+    // Go through entire file
+    for (int i = 0; i < fileToTally.length(); i++) {
 
-        char[] characters = new Array[input.length()];
-            throw new UnsupportedOperationException();
+      // Get next input, and hash it to where it needs to go
+      inputChar = fileAsString.charAt(i);
+
+      // If existing in the hashmap, increment value
+      if (hash.containsKey(inputChar)) {
+        hash.put(inputChar, hash.get(inputChar) + 1);
+      } 
+      
+      // Otherwise create a new entry
+      else if (hash.get(inputChar) == null) {
+        hash.put(inputChar, 1);
+      } 
+      
+      // ???
+      else {
+        throw new UnsupportedOperationException(); 
+      }
+    }
+
+    return hash;
   }
 
-  // helper for above: count the number of times each char appears 
-    public static char[] readInput(Scanner input, char inputChar) {
-
-        char[] characters = new Array[input.length()]
-
-        // read and store in an array ---> remove this later and use string.subString();
-        for (int i = 0; i < input.length(); i++) {
-
-            //small fix here for later
-            char[i] = char[inputChar];
-            char inputChar = input.nextChar();
-        }
-
-        //return characters;
-    }
-
-    // put the array created above into a hashmap that determines the value based off of
-    // if we've seen the character or not
-    public static HashMap<Character, Integer> hashInput(Scanner input, char inputChar, char[] characters) {
-
-        HashMap<Character, Integer> hash = new Hashmap<>();
-
-        for (int i = 0; i < input.length(); i++) {
-
-            // hash.put -> gets value for key,      hash.get -> value which key is mapped
-            hash.put(characters[i], hash.get(characters[i]) == null ? 1 : mp.get(arr[i] + 1));
-
-        }        
-        
-    }
-
-    // sort the hashmap linkedlist style
-    static HashMap<Character, Integer> sortHashMapValues(Hashmap<Character, Integer> hash) {
-
-        // TODO: create a new hashmap to store the sorted hashmap for now, later change this to 
-        // a better implementation (probably using heap method to change orders of values and such)
-        // ideas for later to help - some classes/methods to look into: entrySet(), linkedhashmap, treeset
-
-        HashMap<Character, Integer> sortedHash = new Hashmap<>();
-
-    }
 
 
   /** buildTree - builds a Huffman tree for the given frequency Hashmap. */
