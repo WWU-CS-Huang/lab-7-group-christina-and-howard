@@ -7,18 +7,27 @@ import heap.HashTable;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 import java.util.Scanner;
+import java.lang.StringBuilder;
 
 public class Huffman {
 
   /** filenames are relative to the app directory */
   public static void main(String[] args) {
-    // Grab args[0], the filename, and send it to countFrequencies to intiate the file object
-    // Send HashMap elsewhere later
-    HashMap<Character, Integer> dummyHash;
-    dummyHash = countFrequencies(args[0]);
-
+    String input = "bee nuts.!!!!!";
+    HashMap<Character, Integer> dummyHash = new HashMap<Character, Integer>();
+    dummyHash.put('b', 1);
+    dummyHash.put('e', 2);
+    dummyHash.put(' ', 1);
+    dummyHash.put('n', 1);
+    dummyHash.put('u', 1);
+    dummyHash.put('t', 1);
+    dummyHash.put('s', 1);
+    dummyHash.put('.', 1);
+    dummyHash.put('!', 5);
     HuffmanNode root = buildTree(dummyHash);
     HuffmanNode.printSubtree(root, 0);
+    System.out.println("==========================================");
+    System.out.println(encode(root, input));
   }
 
   /** countFrequencies - Counts the frequencies of each charecter in the string.
@@ -89,7 +98,29 @@ public class Huffman {
 
   /** encode - uses the given tree to encode the given input string. */
   public static String encode(HuffmanNode tree, String input) {
-    // TODO: Howard implement this.
-    throw new UnsupportedOperationException();
+    HashMap<String, Integer> bitTable = generateBitTable(tree);
+    StringBuilder sb = new StringBuilder();
+    for(char c : input.toCharArray()) {
+      Integer current = bitTable.get(Character.toString(c));
+      sb.append(Integer.toBinaryString(current));
+    }
+    return sb.toString();
+  }
+
+  /** generates a bit table for use in encoding. */
+  private static HashMap<String, Integer> generateBitTable(HuffmanNode root) {
+    HashMap<String, Integer> table = new HashMap<String, Integer>();
+    bitTableTraversal(table, root, 0);
+    return table;
+  }
+
+  /** traverses the tree and finds bitstrings for all charecters */
+  private static void bitTableTraversal(HashMap<String, Integer> map, HuffmanNode node, int bitString) {
+    if (node != null && node.left == null && node.right == null) {
+      map.put(node.charecter, bitString);
+    } else if (node != null) {
+      bitTableTraversal(map, node.left, bitString << 1);
+      bitTableTraversal(map, node.right, (bitString << 1) | 0x1);
+    }
   }
 }
