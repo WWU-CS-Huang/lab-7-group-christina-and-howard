@@ -27,7 +27,10 @@ public class Huffman {
     HuffmanNode root = buildTree(dummyHash);
     HuffmanNode.printSubtree(root, 0);
     System.out.println("==========================================");
-    System.out.println(encode(root, input));
+    String bitString = encode(root, input);
+    System.out.println("Encoded String: " + bitString);
+    String decoded = decode(root, bitString);
+    System.out.println("Decoded String: " + decoded);
   }
 
   /** countFrequencies - Counts the frequencies of each charecter in the string.
@@ -92,8 +95,27 @@ public class Huffman {
 
   /** decode - uses given tree to decode the given bitstring. */
   public static String decode(HuffmanNode tree, String bitString) {
-    // TODO: Christina implement this.
-    throw new UnsupportedOperationException();
+    HuffmanNode current = tree;
+    StringBuilder sb = new StringBuilder();
+    char[] arr = bitString.toCharArray();
+    int i = 0;
+
+    while (i < arr.length) {
+      if (arr[i] == '1') {
+	current = current.right;
+      } else {
+	current = current.left;
+      }
+
+      if (current.charecter != null) {
+	sb.append(current.charecter);
+	current = tree;
+      }
+
+      i++;
+    }
+
+    return sb.toString();
   }
 
   /** encode - uses the given tree to encode the given input string. */
