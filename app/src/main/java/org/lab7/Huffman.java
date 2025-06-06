@@ -98,31 +98,29 @@ public class Huffman {
 
   /** encode - uses the given tree to encode the given input string. */
   public static String encode(HuffmanNode tree, String input) {
-    HashMap<String, Integer> bitTable = generateBitTable(tree);
+    HashMap<String, String> bitTable = generateBitTable(tree);
     StringBuilder sb = new StringBuilder();
     for(char c : input.toCharArray()) {
-      Integer current = bitTable.get(Character.toString(c));
-      if (current != null) {
-	sb.append(Integer.toBinaryString(current));
-      }
+      String current = bitTable.get(Character.toString(c));
+      sb.append(current);
     }
     return sb.toString();
   }
 
   /** generates a bit table for use in encoding. */
-  private static HashMap<String, Integer> generateBitTable(HuffmanNode root) {
-    HashMap<String, Integer> table = new HashMap<String, Integer>();
-    bitTableTraversal(table, root, 0);
+  private static HashMap<String, String> generateBitTable(HuffmanNode root) {
+    HashMap<String, String> table = new HashMap<String, String>();
+    bitTableTraversal(table, root, "");
     return table;
   }
 
   /** traverses the tree and finds bitstrings for all charecters */
-  private static void bitTableTraversal(HashMap<String, Integer> map, HuffmanNode node, int bitString) {
+  private static void bitTableTraversal(HashMap<String, String> map, HuffmanNode node, String bitString) {
     if (node != null && node.left == null && node.right == null) {
       map.put(node.charecter, bitString);
     } else if (node != null) {
-      bitTableTraversal(map, node.left, bitString << 1);
-      bitTableTraversal(map, node.right, (bitString << 1) | 0x1);
+      bitTableTraversal(map, node.left, bitString + "0");
+      bitTableTraversal(map, node.right, bitString + "1");
     }
   }
 }
